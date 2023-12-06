@@ -1,0 +1,5 @@
+<?php
+
+namespace Mwf\Wp\Framework\DL;
+
+class Container {}
