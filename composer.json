@@ -1,5 +1,5 @@
 {
-    "name": "devkit/wp-skeleton",
+    "name": "mwf/wp-framework-core",
     "description": "WP Plugin/Theme Library",
 	"version": "1.0.0",
     "type": "library",
@@ -27,7 +27,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Mwf\\Wp\\Framework\\" : "src"
+			"Mwf\\Wp\\Framework" : "src"
 		}
 	},
 	"require": {
