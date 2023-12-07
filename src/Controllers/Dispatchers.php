@@ -11,12 +11,12 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Core\Controllers;
+namespace WPCore\Controllers;
 
-use Mwf\Wp\Framework\Core\DI\ContainerBuilder,
-	Mwf\Wp\Framework\Core\Dispatchers as Dispatcher,
-	Mwf\Wp\Framework\Core\Interfaces,
-	Mwf\Wp\Framework\Core\Abstracts;
+use WPCore\DI\ContainerBuilder,
+	WPCore\Dispatchers as Dispatcher,
+	WPCore\Interfaces,
+	WPCore\Abstracts;
 
 /**
  * Controls the registration and execution of Dispatchers

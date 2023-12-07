@@ -11,12 +11,12 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Core\Dispatchers;
+namespace WPCore\Dispatchers;
 
 use DI\Attribute\Inject,
-	Mwf\Wp\Framework\Core\Abstracts,
-	Mwf\Wp\Framework\Core\Interfaces,
-	Mwf\Wp\Framework\Core\Traits;
+	WPCore\Abstracts,
+	WPCore\Interfaces,
+	WPCore\Traits;
 
 /**
  * Dispatcher to handle JS file enqueueing

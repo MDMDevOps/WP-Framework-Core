@@ -4,16 +4,16 @@
  *
  * PHP Version 8.1
  *
- * @package WP Framework
+ * @package WP Core Framework
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
  * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Core;
+namespace WPCore;
 
-use Mwf\Wp\Framework\Core\DI\ContainerBuilder;
+use WPCore\DI\ContainerBuilder;
 
 use Psr\Container\ContainerInterface;
 

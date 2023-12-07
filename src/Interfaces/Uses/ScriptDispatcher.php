@@ -11,14 +11,14 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Core\Interfaces\Uses;
+namespace WPCore\Interfaces\Uses;
 
-use Mwf\Wp\Framework\Core\Interfaces;
+use WPCore\Interfaces;
 
 /**
  * Uses\Scripts interface
  *
- * Used to type hint against Mwf\Wp\Framework\Core\Interfaces\Uses\Scripts.
+ * Used to type hint against WPCore\Interfaces\Uses\Scripts.
  *
  * @subpackage Interfaces
  */

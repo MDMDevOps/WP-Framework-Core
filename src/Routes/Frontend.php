@@ -11,12 +11,12 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Core\Routes;
+namespace WPCore\Routes;
 
-use Mwf\Wp\Framework\Core\Abstracts,
-	Mwf\Wp\Framework\Core\Traits,
-	Mwf\Wp\Framework\Core\Interfaces,
-	Mwf\Wp\Framework\Core\DI\OnMount;
+use WPCore\Abstracts,
+	WPCore\Traits,
+	WPCore\Interfaces,
+	WPCore\DI\OnMount;
 
 /**
  * Frontend router class

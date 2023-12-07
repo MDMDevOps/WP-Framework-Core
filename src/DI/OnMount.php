@@ -11,7 +11,7 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Core\DI;
+namespace WPCore\DI;
 
 use Attribute;
 

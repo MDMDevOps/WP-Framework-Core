@@ -11,7 +11,7 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Core\Interfaces\Services;
+namespace WPCore\Interfaces\Services;
 
 use Twig\Environment;
 
