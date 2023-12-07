@@ -11,15 +11,13 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Controllers;
+namespace Mwf\Wp\Framework\Core\Controllers;
 
-use Mwf\Wp\Framework\DI\ContainerBuilder,
-	Twig\Environment,
-	Mwf\Wp\Framework\DI\OnMount,
-	Mwf\Wp\Framework\Services as Service,
-	Mwf\Wp\Framework\Interfaces,
-	Mwf\Wp\Framework\Abstracts,
-	Mwf\Wp\Framework\Helpers;
+use Mwf\Wp\Framework\Core\DI\ContainerBuilder,
+	Mwf\Wp\Framework\Core\DI\OnMount,
+	Mwf\Wp\Framework\Core\Services as Service,
+	Mwf\Wp\Framework\Core\Interfaces,
+	Mwf\Wp\Framework\Core\Abstracts;
 
 /**
  * Controls the registration and execution of services

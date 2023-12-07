@@ -11,9 +11,9 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Abstracts;
+namespace Mwf\Wp\Framework\Core\Abstracts;
 
-use Mwf\Wp\Framework\Interfaces;
+use Mwf\Wp\Framework\Core\Interfaces;
 
 use DI\Attribute\Inject;
 

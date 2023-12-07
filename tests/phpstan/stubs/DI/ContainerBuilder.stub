@@ -2,7 +2,7 @@
 
 namespace DI;
 
-use \Mwf\Wp\Framework\DI\Container;
+use \Mwf\Wp\Framework\Core\DI\Container;
 
 class ContainerBuilder
 {

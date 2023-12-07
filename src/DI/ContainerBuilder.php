@@ -11,11 +11,10 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\DI;
+namespace Mwf\Wp\Framework\Core\DI;
 
-use Mwf\Wp\Framework\Helpers,
-	Mwf\Wp\Framework\Interfaces,
-	Mwf\Wp\Framework\Deps,
+use Mwf\Wp\Framework\Core\Helpers,
+	Mwf\Wp\Framework\Core\Interfaces,
 	DI\Definition\Source\DefinitionSource,
 	DI\Definition\Reference,
 	DI\Definition\Helper;

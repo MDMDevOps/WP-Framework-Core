@@ -11,12 +11,12 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Dispatchers;
+namespace Mwf\Wp\Framework\Core\Dispatchers;
 
 use DI\Attribute\Inject,
-	Mwf\Wp\Framework\Abstracts,
-	Mwf\Wp\Framework\Interfaces,
-	Mwf\Wp\Framework\Traits;
+	Mwf\Wp\Framework\Core\Abstracts,
+	Mwf\Wp\Framework\Core\Interfaces,
+	Mwf\Wp\Framework\Core\Traits;
 
 /**
  * Style dispatcher service

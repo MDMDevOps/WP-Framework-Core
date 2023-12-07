@@ -11,9 +11,9 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework;
+namespace Mwf\Wp\Framework\Core;
 
-use Mwf\Wp\Framework\DI\ContainerBuilder;
+use Mwf\Wp\Framework\Core\DI\ContainerBuilder;
 
 use Psr\Container\ContainerInterface;
 

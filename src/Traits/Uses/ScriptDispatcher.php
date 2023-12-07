@@ -11,10 +11,10 @@
  * @since   1.0.0
  */
 
-namespace Mwf\Wp\Framework\Traits\Uses;
+namespace Mwf\Wp\Framework\Core\Traits\Uses;
 
 use DI\Attribute\Inject,
-	Mwf\Wp\Framework\Interfaces;
+	Mwf\Wp\Framework\Core\Interfaces;
 
 /**
  * Script Trait
