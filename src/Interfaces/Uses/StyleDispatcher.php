@@ -11,14 +11,14 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Interfaces\Uses;
+namespace Mwf\WPCore\Interfaces\Uses;
 
-use WPCore\Interfaces;
+use Mwf\WPCore\Interfaces;
 
 /**
  * Uses\Styles interface
  *
- * Used to type hint against WPCore\Interfaces\Uses\Styles.
+ * Used to type hint against Mwf\WPCore\Interfaces\Uses\Styles.
  *
  * @subpackage Interfaces
  */

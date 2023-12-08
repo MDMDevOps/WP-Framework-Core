@@ -11,7 +11,7 @@
  * @since   1.0.0
  */
 
-namespace WPCore\DI;
+namespace Mwf\WPCore\DI;
 
 use DI,
 	DI\DependencyException,

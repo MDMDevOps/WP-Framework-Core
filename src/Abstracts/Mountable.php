@@ -11,10 +11,10 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Abstracts;
+namespace Mwf\WPCore\Abstracts;
 
-use WPCore\Interfaces,
-	WPCore\DI\OnMount;
+use Mwf\WPCore\Interfaces,
+	Mwf\WPCore\DI\OnMount;
 
 /**
  * Abstract Loadable class

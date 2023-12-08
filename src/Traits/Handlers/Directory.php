@@ -11,7 +11,7 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Traits\Handlers;
+namespace Mwf\WPCore\Traits\Handlers;
 
 use DI\Attribute\Inject;
 

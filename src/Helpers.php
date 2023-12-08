@@ -11,7 +11,7 @@
  * @since   1.0.0
  */
 
-namespace WPCore;
+namespace Mwf\WPCore;
 
 /**
  * App Factory

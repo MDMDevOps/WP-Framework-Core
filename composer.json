@@ -27,7 +27,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"WPCore\\" : "src"
+			"Mwf\\Mwf\WPCore\\" : "src"
 		}
 	},
 	"require": {

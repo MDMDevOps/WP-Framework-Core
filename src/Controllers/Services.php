@@ -11,13 +11,13 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Controllers;
+namespace Mwf\WPCore\Controllers;
 
-use WPCore\DI\ContainerBuilder,
-	WPCore\DI\OnMount,
-	WPCore\Services as Service,
-	WPCore\Interfaces,
-	WPCore\Abstracts;
+use Mwf\WPCore\DI\ContainerBuilder,
+	Mwf\WPCore\DI\OnMount,
+	Mwf\WPCore\Services as Service,
+	Mwf\WPCore\Interfaces,
+	Mwf\WPCore\Abstracts;
 
 /**
  * Controls the registration and execution of services

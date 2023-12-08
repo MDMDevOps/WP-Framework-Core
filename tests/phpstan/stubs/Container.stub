@@ -1,5 +1,5 @@
 <?php
 
-namespace WPCore\DL;
+namespace Mwf\WPCore\DL;
 
 class Container {}

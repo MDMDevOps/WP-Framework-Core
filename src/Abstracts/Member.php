@@ -11,9 +11,9 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Abstracts;
+namespace Mwf\WPCore\Abstracts;
 
-use WPCore\Interfaces;
+use Mwf\WPCore\Interfaces;
 
 use DI\Attribute\Inject;
 

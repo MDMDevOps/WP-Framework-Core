@@ -11,7 +11,7 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Interfaces\Entities;
+namespace Mwf\WPCore\Interfaces\Entities;
 
 /**
  * Post Type definition

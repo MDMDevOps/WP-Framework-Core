@@ -11,9 +11,9 @@
  * @since   1.0.0
  */
 
-namespace WPCore;
+namespace Mwf\WPCore;
 
-use WPCore\DI\ContainerBuilder;
+use Mwf\WPCore\DI\ContainerBuilder;
 
 use Psr\Container\ContainerInterface;
 

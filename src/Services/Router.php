@@ -11,10 +11,10 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Services;
+namespace Mwf\WPCore\Services;
 
-use WPCore\Abstracts,
-	WPCore\Interfaces;
+use Mwf\WPCore\Abstracts,
+	Mwf\WPCore\Interfaces;
 
 /**
  * Service class for router actions

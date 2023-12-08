@@ -11,12 +11,12 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Interfaces;
+namespace Mwf\WPCore\Interfaces;
 
 /**
  * Loadable interface requirements
  *
- * Used to type hint against WPCore\Interfaces\Loadable.
+ * Used to type hint against Mwf\WPCore\Interfaces\Loadable.
  *
  * @subpackage Interfaces
  */

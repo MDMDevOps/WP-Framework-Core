@@ -11,10 +11,10 @@
  * @since   1.0.0
  */
 
-namespace WPCore\DI;
+namespace Mwf\WPCore\DI;
 
-use WPCore\Helpers,
-	WPCore\Interfaces,
+use Mwf\WPCore\Helpers,
+	Mwf\WPCore\Interfaces,
 	DI\Definition\Source\DefinitionSource,
 	DI\Definition\Reference,
 	DI\Definition\Helper;

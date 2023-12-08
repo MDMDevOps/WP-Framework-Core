@@ -11,10 +11,10 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Traits\Uses;
+namespace Mwf\WPCore\Traits\Uses;
 
 use DI\Attribute\Inject,
-	WPCore\Interfaces;
+	Mwf\WPCore\Interfaces;
 
 /**
  * Style user Trait

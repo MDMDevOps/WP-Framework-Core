@@ -11,11 +11,11 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Services;
+namespace Mwf\WPCore\Services;
 
-use WPCore\Abstracts,
-	WPCore\Interfaces,
-	WPCore\Traits,
+use Mwf\WPCore\Abstracts,
+	Mwf\WPCore\Interfaces,
+	Mwf\WPCore\Traits,
 	Timber\Timber,
 	Timber\Loader,
 	Twig\TwigFunction,

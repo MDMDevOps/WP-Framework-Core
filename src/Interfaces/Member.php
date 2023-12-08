@@ -11,7 +11,7 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Interfaces;
+namespace Mwf\WPCore\Interfaces;
 
 /**
  * Member interface requirements

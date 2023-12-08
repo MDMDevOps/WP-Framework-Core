@@ -11,12 +11,12 @@
  * @since   1.0.0
  */
 
-namespace WPCore\Controllers;
+namespace Mwf\WPCore\Controllers;
 
-use WPCore\DI\ContainerBuilder,
-	WPCore\Abstracts,
-	WPCore\Interfaces,
-	WPCore\Routes as Route;
+use Mwf\WPCore\DI\ContainerBuilder,
+	Mwf\WPCore\Abstracts,
+	Mwf\WPCore\Interfaces,
+	Mwf\WPCore\Routes as Route;
 
 /**
  * Controls the registration and execution of Routes
