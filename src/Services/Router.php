@@ -2,12 +2,12 @@
 /**
  * Router Service Definition
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -52,74 +52,29 @@ class Router extends Abstracts\Mountable implements Interfaces\Services\Router
 		return array_reverse( apply_filters( "{$this->package}_routes", $routes ) );
 	}
 	/**
-	 * Getter for views
-	 *
-	 * @return array<string>
-	 */
-	public function getRoutes(): array
-	{
-		if ( empty( $this->routes ) ) {
-			$this->routes = $this->defineRoutes();
-		}
-		return $this->routes;
-	}
-	/**
-	 * Get routes via filter
+	 * Getter for routes
 	 *
 	 * @param array<string> $default_routes : routes to prepend to the list.
 	 *
 	 * @return array<string>
 	 */
-	public function getRoutesByFilter( array $default_routes = [] ): array
+	public function getRoutes( array $default_routes = [] ): array
 	{
-		$routes = $this->getRoutes();
+		if ( empty( $this->routes ) ) {
+			$this->routes = $this->defineRoutes();
+		}
 
 		return ! empty( $default_routes )
-			? array_merge( $default_routes, $this->getRoutes() )
-			: $this->getRoutes();
+		? array_merge( $default_routes, $this->routes )
+		: $this->routes;
 	}
 	/**
-	 * Setter for $route
+	 * Fire router ready action
 	 *
 	 * @return void
 	 */
-	public function loadRoute(): void
+	public function dispatchRoutes(): void
 	{
-		foreach ( $this->getRoutes() as $route ) {
-			$this->loadSingleRoute( $route );
-		}
-		/**
-		 * Final check to load frontend if nothing has loaded at this point
-		 */
-		if ( ! $this->routeHasLoaded() && ! is_admin() && ! wp_doing_ajax() && ! wp_doing_cron() ) {
-			$this->loadSingleRoute( 'frontend' );
-		}
-	}
-	/**
-	 * Load a singular route
-	 *
-	 * @param string $route : string route name.
-	 *
-	 * @return void
-	 */
-	protected function loadSingleRoute( string $route ): void
-	{
-		$alias = 'route.' . strtolower( $route );
-
-		$has_route = apply_filters( "{$this->package}_has_route", false, $alias );
-
-		if ( ! $this->routeHasLoaded() && $has_route ) {
-			do_action( "{$this->package}_load_route", $alias, $route );
-		}
-		do_action( "{$this->package}_route_{$route}", $alias );
-	}
-	/**
-	 * Determine if a route has already been loaded
-	 *
-	 * @return int
-	 */
-	public function routeHasLoaded(): int
-	{
-		return did_action( "{$this->package}_load_route" );
+		do_action( "{$this->package}_router_ready", $this->getRoutes() );
 	}
 }

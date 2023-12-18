@@ -2,12 +2,12 @@
 /**
  * Helper Functions
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -178,5 +178,62 @@ class Helpers
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 		return is_file( WP_PLUGIN_DIR . '/' . $plugin ) && is_plugin_active( $plugin );
+	}
+	/**
+	 * Replace slashes and spaces in a string with underscores, and convert to lowercase
+	 *
+	 * @param string $raw_string : string to slugify.
+	 *
+	 * @return string
+	 */
+	public static function slugify( string $raw_string ): string
+	{
+		return strtolower( str_replace( [ '\\', '/', ' ' ], '_', $raw_string ) );
+	}
+	/**
+	 * Attempt to infer the plugin directory for this application.
+	 *
+	 * @return string
+	 */
+	public static function defaultPluginDir(): string
+	{
+		$base = str_replace( trailingslashit( WP_PLUGIN_DIR ), '', __DIR__ );
+
+		$parts = explode( '/', $base );
+
+		return trailingslashit( WP_PLUGIN_DIR ) . $parts[0] . '/';
+	}
+		/**
+		 * Recursively search an array for a pipe seperated value. Pipe is used to search nested arrays as many levels deep
+		 * as necessary, until no more search terms are available or the value is found.
+		 *
+		 * @param array $haystack array to search in
+		 * @param array|string $needle needle to look for, reduced until single value. Array or pipe seperated string
+		 * @return mixed|null
+		 */
+	/**
+	 * Search an array using string notation
+	 *
+	 * @param array<mixed>         $haystack : the array to search.
+	 * @param string|array<string> $needle : what key to search for.
+	 * @param string               $separator : optional separator to use, defaults to '.'.
+	 *
+	 * @return mixed
+	 */
+	public static function searchArray( array $haystack, string|array $needle, $separator = '.' ): mixed
+	{
+		if ( is_string( $needle ) ) {
+			$needle = explode( $separator, $needle );
+		}
+
+		$current = array_shift( $needle );
+
+		if ( empty( $needle ) ) {
+			return $haystack[ $current ] ?? null;
+		} elseif ( ! isset( $haystack[ $current ] ) || ! is_array( $haystack[ $current ] ) ) {
+			return null;
+		} else {
+			return self::searchArray( $haystack[ $current ], $needle );
+		}
 	}
 }

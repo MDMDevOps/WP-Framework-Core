@@ -2,12 +2,12 @@
 /**
  * Login Route Definition
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -23,10 +23,10 @@ use Mwf\WPCore\Abstracts,
  *
  * @subpackage Route
  */
-class Login extends Abstracts\Mountable implements Interfaces\Uses\ScriptDispatcher, Interfaces\Uses\StyleDispatcher
+class Login extends Abstracts\Mountable implements Interfaces\Uses\Scripts, Interfaces\Uses\Styles
 {
-	use Traits\Uses\ScriptDispatcher;
-	use Traits\Uses\StyleDispatcher;
+	use Traits\Uses\Scripts;
+	use Traits\Uses\Styles;
 
 	/**
 	 * Load actions and filters, and other setup requirements

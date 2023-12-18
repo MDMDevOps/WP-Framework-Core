@@ -2,16 +2,16 @@
 /**
  * Style dispatcher
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
-namespace Mwf\WPCore\Dispatchers;
+namespace Mwf\WPCore\Handlers;
 
 use DI\Attribute\Inject,
 	Mwf\WPCore\Abstracts,
@@ -26,7 +26,7 @@ use DI\Attribute\Inject,
  * @subpackage Dispatchers
  */
 class Styles extends Abstracts\Mountable implements
-	Interfaces\Dispatchers\Styles,
+	Interfaces\Handlers\Styles,
 	Interfaces\Handlers\Directory,
 	Interfaces\Handlers\Url
 {
@@ -38,27 +38,33 @@ class Styles extends Abstracts\Mountable implements
 	 *
 	 * Can include an additional string, to make it relative to a different file
 	 *
-	 * @param string $dir : root url path.
+	 * @param string $app_dir : the root directory path.
+	 * @param string $assets_dir : additional string to append to the directory path.
 	 *
 	 * @return void
 	 */
 	#[Inject]
-	public function setDir( #[Inject( 'app.dir' )] string $dir, #[Inject( 'assets.dir' )] string $append = '' ): void
-	{
-		$this->dir = $this->appendDir( $dir, $append );
+	public function setDir(
+		#[Inject( 'config.dir' )] string $app_dir,
+		#[Inject( 'config.assets.dir' )] string $assets_dir = ''
+	): void {
+		$this->dir = $this->appendDir( $app_dir, $assets_dir );
 	}
 	/**
 	 * Set the base URL
 	 * Can include an additional string for appending to the URL of the plugin
 	 *
-	 * @param string $url : root directory to use.
+	 * @param string $app_url : root directory to use.
+	 * @param string $assets_dir : additional string to append to the URL path.
 	 *
 	 * @return void
 	 */
 	#[Inject]
-	public function setUrl( #[Inject( 'app.url' )] string $url, #[Inject( 'assets.url' )] string $append = '' ): void
-	{
-		$this->url = $this->appendUrl( $url, $append );
+	public function setUrl(
+		#[Inject( 'config.url' )] string $app_url,
+		#[Inject( 'config.assets.dir' )] string $assets_dir = ''
+	): void {
+		$this->url = $this->appendUrl( $app_url, $assets_dir );
 	}
 	/**
 	 * Enqueue a style in the dist/build directories

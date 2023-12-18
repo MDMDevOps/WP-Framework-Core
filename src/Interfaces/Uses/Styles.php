@@ -2,12 +2,12 @@
 /**
  * Uses Styles interface definition
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -22,22 +22,22 @@ use Mwf\WPCore\Interfaces;
  *
  * @subpackage Interfaces
  */
-interface StyleDispatcher
+interface Styles
 {
 	/**
 	 * Setter for the style dispatcher
 	 *
-	 * @param Interfaces\Dispatchers\Styles $style_dispatcher : instance of style dispatcher.
+	 * @param Interfaces\Handlers\Styles $style_dispatcher : instance of style dispatcher.
 	 *
 	 * @return void
 	 */
-	public function setStyleDispatcher( Interfaces\Dispatchers\Styles $style_dispatcher ): void;
+	public function setStyleHandler( Interfaces\Handlers\Styles $style_dispatcher ): void;
 	/**
 	 * Getter for style dispatcher
 	 *
-	 * @return Interfaces\Dispatchers\Styles|null
+	 * @return Interfaces\Handlers\Styles|null
 	 */
-	public function getStyleDispatcher(): ?Interfaces\Dispatchers\Styles;
+	public function getStyleHandler(): ?Interfaces\Handlers\Styles;
 	/**
 	 * Enqueue a style in the dist/build directories
 	 *

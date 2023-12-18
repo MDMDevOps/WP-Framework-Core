@@ -2,12 +2,12 @@
 /**
  * Member definition file
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -47,7 +47,7 @@ abstract class Member implements Interfaces\Member
 	 * @return void
 	 */
 	#[Inject]
-	public function setPackage( #[Inject( 'app.package' )] string $package ): void
+	public function setPackage( #[Inject( 'config.package' )] string $package ): void
 	{
 		$this->package = strtolower( str_replace( [ '\\', '/', ' ' ], '_', trim( $package ) ) );
 	}

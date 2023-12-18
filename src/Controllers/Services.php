@@ -2,22 +2,24 @@
 /**
  * Handler Controller
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
 namespace Mwf\WPCore\Controllers;
 
 use Mwf\WPCore\DI\ContainerBuilder,
+	Twig\Environment,
 	Mwf\WPCore\DI\OnMount,
 	Mwf\WPCore\Services as Service,
 	Mwf\WPCore\Interfaces,
-	Mwf\WPCore\Abstracts;
+	Mwf\WPCore\Abstracts,
+	Mwf\WPCore\Helpers;
 
 /**
  * Controls the registration and execution of services
@@ -56,9 +58,10 @@ class Services extends Abstracts\Mountable implements Interfaces\Controller
 	#[OnMount]
 	public function mountRouter( Interfaces\Services\Router $router ): void
 	{
-		add_action( 'wp', [ $router, 'loadRoute' ] );
-		add_action( 'admin_init', [ $router, 'loadRoute' ] );
-		add_action( 'login_init', [ $router, 'loadRoute' ] );
+		add_action( 'wp', [ $router, 'dispatchRoutes' ] );
+		add_action( 'admin_init', [ $router, 'dispatchRoutes' ] );
+		add_action( 'login_init', [ $router, 'dispatchRoutes' ] );
+		add_filter( "{$this->package}_get_routes", [ $router, 'getRoutes' ] );
 	}
 	/**
 	 * Mount compiler filters & add twig functions
@@ -69,7 +72,7 @@ class Services extends Abstracts\Mountable implements Interfaces\Controller
 	 */
 	#[OnMount]
 	public function mountCompiler( Interfaces\Services\Compiler $compiler ): void
-	{	
+	{
 		add_filter( 'timber/locations', [ $compiler, 'templateLocations' ] );
 
 		add_action( "{$this->package}_render_template", [ $compiler, 'render' ], 10, 2 );

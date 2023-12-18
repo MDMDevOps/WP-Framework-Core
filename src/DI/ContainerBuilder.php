@@ -2,12 +2,12 @@
 /**
  * Container Builder
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -15,8 +15,12 @@ namespace Mwf\WPCore\DI;
 
 use Mwf\WPCore\Helpers,
 	Mwf\WPCore\Interfaces,
-	DI\Definition\Source\DefinitionSource,
+	Mwf\WPCore\Deps;
+
+use DI\Definition\Source\DefinitionSource,
 	DI\Definition\Reference,
+	DI\Definition\StringDefinition,
+	DI\Definition\ValueDefinition,
 	DI\Definition\Helper;
 
 use Psr\Container\ContainerInterface;
@@ -79,23 +83,50 @@ class ContainerBuilder extends \DI\ContainerBuilder
 	 */
 	public function addDefinitions( string|array|DefinitionSource ...$definitions ): self
 	{
-		$controller_definitions = [];
+		$extended_definitions = [];
 
 		foreach ( $definitions as $definition ) {
-			$controller_definitions += $this->autowireControllers( $definition );
+			$extended_definitions += $this->autowireControllers( $definition );
+			$extended_definitions += $this->addNestedDefinitions( $definition );
 		}
 
 		parent::addDefinitions( ...$definitions );
 
-		parent::addDefinitions( $controller_definitions );
+		parent::addDefinitions( $extended_definitions );
 
 		return $this;
+	}
+	/**
+	 * Extend array definitions to include nested definitions.
+	 *
+	 * @param mixed  $definitions : definitions to extend.
+	 * @param string $key : optional key, used in recursion.
+	 * @param int    $iterations : optional number of iterations, used in recursion.
+	 *
+	 * @return mixed
+	 */
+	public function addNestedDefinitions( mixed $definitions, string $key = '', int $iterations = 0 ): mixed
+	{
+		$extended_definitions = [];
+
+		if ( is_array( $definitions ) ) {
+			++$iterations;
+			foreach ( $definitions as $nested_key => $definition ) {
+				$extended_definitions += $this->addNestedDefinitions( $definition, ! empty( $key ) ? $key . '.' . $nested_key : $nested_key, $iterations );
+			}
+		} elseif ( ! is_object( $definitions ) ) {
+			$extended_definitions[ $key ] = $definitions;
+		} elseif ( 1 < $iterations ) {
+			$extended_definitions[ $key ] = $definitions;
+		}
+		return $extended_definitions;
 	}
 	/**
 	 * Auto wire controllers
 	 *
 	 * @param string|array<string, mixed>|DefinitionSource|Helper\DefinitionHelper $definition : definition(s).
-	 * @param string                                                               $key : optional key, used in recursion.
+	 * @param string                                                               $key : optional key,
+	 *                                                                             used in recursion.
 	 *
 	 * @return array<string, mixed>
 	 */
@@ -188,5 +219,27 @@ class ContainerBuilder extends \DI\ContainerBuilder
 	public static function decorate( callable|array|string $decorator ): Helper\DefinitionHelper
 	{
 		return \DI\decorate( $decorator );
+	}
+	/**
+	 * Undocumented function
+	 *
+	 * @param string $expression : A string expression. Use the `{}` placeholders to reference other container entries.
+	 *
+	 * @return StringDefinition
+	 */
+	public static function string( string $expression ): StringDefinition
+	{
+		return \DI\string( $expression );
+	}
+	/**
+	 * Helper for defining a value.
+	 *
+	 * @param mixed $value : value definition.
+	 *
+	 * @return ValueDefinition
+	 */
+	public static function value( mixed $value ): ValueDefinition
+	{
+		return \DI\value( $value );
 	}
 }

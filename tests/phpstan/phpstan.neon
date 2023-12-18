@@ -4,9 +4,7 @@ parameters:
 	level: 6
 	checkGenericClassInNonGenericObjectType : false
 	paths:
-		- ../../inc
+		- ../../src
 	stubFiles:
 		- stubs/DI/ContainerBuilder.stub
 		- stubs/Container.stub
-	scanDirectories:
-		- ../../deps

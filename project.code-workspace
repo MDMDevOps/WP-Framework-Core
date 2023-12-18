@@ -5,9 +5,6 @@
 		}
 	],
 	"settings": {
-		// "intelephense.environment.includePaths" : [
-		// 	"../../mu-plugins"
-		// ],
 		"phpcs.enable": true,
 		"phpcs.standard": "./tests/phpcs.xml",
 		"phpcs.executablePath": "./vendor/bin/phpcs",

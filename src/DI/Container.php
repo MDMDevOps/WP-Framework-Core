@@ -2,16 +2,18 @@
 /**
  * Container definition file
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
 namespace Mwf\WPCore\DI;
+
+use Mwf\WPCore\Helpers;
 
 use DI,
 	DI\DependencyException,
@@ -55,31 +57,13 @@ final class Container extends DI\Container
 		 * Else load new service
 		 */
 		try {
-			// $this->beforeGetService( $id );
 			$instance = parent::get( $id );
+
 			$this->afterGetService( $instance );
+
 			return $instance;
 		} catch ( DependencyException | NotFoundException $e ) {
 			return new WP_Error( $e->getMessage() );
-		}
-	}
-	/**
-	 * Actions before a service is retrieved
-	 *
-	 * @param string $id : id of service to get from the container.
-	 *
-	 * @return void
-	 */
-	protected function beforeGetService( string $id ): void
-	{
-		if ( $this->has( 'app.package' ) ) {
-			$definition = $this->getDefinition( $id );
-
-			if ( ! is_object( $definition ) || ! method_exists( $definition, 'getClassName' ) ) {
-				return;
-			}
-
-			do_action( "{$this->get( 'app.package' )}_before_get_service", $definition, $definition->getClassName(), $this );
 		}
 	}
 	/**
@@ -140,8 +124,8 @@ final class Container extends DI\Container
 		/**
 		 * Run action for additional decoration
 		 */
-		if ( $this->has( 'app.package' ) ) {
-			do_action( "{$this->get( 'app.package' )}_after_get_service", $instance, $this );
+		if ( $this->has( 'config.package' ) ) {
+			do_action( "{$this->get( 'config.package' )}_after_get_service", $instance, $this );
 		}
 	}
 	/**

@@ -2,12 +2,12 @@
 /**
  * Style User definition
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -19,38 +19,38 @@ use DI\Attribute\Inject,
 /**
  * Style user Trait
  *
- * Used by classes to import the style dispatcher
+ * Used by classes to import the style handler
  *
  * @subpackage Traits
  */
-trait StyleDispatcher
+trait Styles
 {
 	/**
 	 * Style handler service instance
 	 *
-	 * @var Interfaces\Dispatchers\Styles|null
+	 * @var Interfaces\Handlers\Styles|null
 	 */
-	protected ?Interfaces\Dispatchers\Styles $style_dispatcher;
+	protected ?Interfaces\Handlers\Styles $style_handler;
 	/**
-	 * Setter for the style dispatcher
+	 * Setter for the style handler
 	 *
-	 * @param Interfaces\Dispatchers\Styles $style_dispatcher : instance of style dispatcher.
+	 * @param Interfaces\Handlers\Styles $style_handler : instance of style handler.
 	 *
 	 * @return void
 	 */
 	#[Inject]
-	public function setStyleDispatcher( Interfaces\Dispatchers\Styles $style_dispatcher ): void
+	public function setStyleHandler( Interfaces\Handlers\Styles $style_handler ): void
 	{
-		$this->style_dispatcher = $style_dispatcher;
+		$this->style_handler = $style_handler;
 	}
 	/**
-	 * Getter for style dispatcher
+	 * Getter for style handler
 	 *
-	 * @return Interfaces\Dispatchers\Styles|null
+	 * @return Interfaces\Handlers\Styles|null
 	 */
-	public function getStyleDispatcher(): ?Interfaces\Dispatchers\Styles
+	public function getStyleHandler(): ?Interfaces\Handlers\Styles
 	{
-		return $this->style_dispatcher;
+		return $this->style_handler;
 	}
 	/**
 	 * Enqueue a style in the dist/build directories
@@ -70,7 +70,7 @@ trait StyleDispatcher
 		string $version = null,
 		$screens = 'all'
 	): void {
-		$this->style_dispatcher->enqueue(
+		$this->style_handler->enqueue(
 			$handle,
 			$path,
 			$dependencies,

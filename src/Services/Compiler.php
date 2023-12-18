@@ -2,12 +2,12 @@
 /**
  * Compiler Service Definition
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -79,7 +79,7 @@ class Compiler extends Abstracts\Mountable implements Interfaces\Services\Compil
 	 * @return void
 	 */
 	#[Inject]
-	public function setViewsDirectory( #[Inject( 'views.dir' )] string $views_dir ): void
+	public function setViewsDirectory( #[Inject( 'config.views.dir' )] string $views_dir ): void
 	{
 		$this->views_dir = $views_dir;
 	}
@@ -87,11 +87,11 @@ class Compiler extends Abstracts\Mountable implements Interfaces\Services\Compil
 	 * Setter for the assets directory
 	 *
 	 * @param string $asset_dir : path to assets directory.
-	 * 
+	 *
 	 * @return void
 	 */
 	#[Inject]
-	public function setAssetsDirectory( #[Inject( 'assets.dir' )] string $asset_dir ): void
+	public function setAssetsDirectory( #[Inject( 'config.assets.dir' )] string $asset_dir ): void
 	{
 		$this->assets_dir = $asset_dir;
 	}
@@ -302,11 +302,11 @@ class Compiler extends Abstracts\Mountable implements Interfaces\Services\Compil
 	/**
 	 * Register custom function with TWIG
 	 *
-	 * @param Environment $twig : instance of twig environment.
+	 * @param mixed $twig : instance of twig environment.
 	 *
-	 * @return Environment
+	 * @return mixed
 	 */
-	public function loadFunctions( Environment $twig ): Environment
+	public function loadFunctions( mixed $twig ): mixed
 	{
 		foreach ( $this->getFunctions() as $name => $args ) {
 			try {
@@ -320,11 +320,11 @@ class Compiler extends Abstracts\Mountable implements Interfaces\Services\Compil
 	/**
 	 * Register custom filters with TWIG
 	 *
-	 * @param Environment $twig : instance of twig environment.
+	 * @param mixed $twig : instance of twig environment.
 	 *
-	 * @return Environment
+	 * @return mixed
 	 */
-	public function loadFilters( Environment $twig ): Environment
+	public function loadFilters( mixed $twig ): mixed
 	{
 		foreach ( $this->getFilters() as $name => $args ) {
 			try {

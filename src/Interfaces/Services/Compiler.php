@@ -2,12 +2,12 @@
 /**
  * Compiler Service interface definition
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -35,31 +35,31 @@ interface Compiler
 	/**
 	 * Register custom function with TWIG
 	 *
-	 * @param Environment $twig : instance of twig environment.
+	 * @param mixed $twig : instance of twig environment.
 	 *
-	 * @return Environment
+	 * @return mixed
 	 */
-	public function loadFunctions( Environment $twig ): Environment;
+	public function loadFunctions( mixed $twig ): mixed;
 	/**
 	 * Register custom filters with TWIG
 	 *
-	 * @param Environment $twig : instance of twig environment.
+	 * @param mixed $twig : instance of twig environment.
 	 *
-	 * @return Environment
+	 * @return mixed
 	 */
-	public function loadFilters( Environment $twig ): Environment;
-		/**
-		 * Add a function to collection of twig functions
-		 *
-		 * @param string                   $name : name of function to bind.
-		 * @param string|array<int, mixed> $callback : callback function.
-		 * @param array<string, mixed>     $args : args to add to twig function.
-		 *
-		 * @see https://twig.symfony.com/doc/3.x/advanced.html
-		 * @see https://timber.github.io/docs/guides/extending-timber/
-		 *
-		 * @return void
-		 */
+	public function loadFilters( mixed $twig ): mixed;
+	/**
+	 * Add a function to collection of twig functions
+	 *
+	 * @param string                   $name : name of function to bind.
+	 * @param string|array<int, mixed> $callback : callback function.
+	 * @param array<string, mixed>     $args : args to add to twig function.
+	 *
+	 * @see https://twig.symfony.com/doc/3.x/advanced.html
+	 * @see https://timber.github.io/docs/guides/extending-timber/
+	 *
+	 * @return void
+	 */
 	public function addFunction( string $name, string|array $callback, array $args = [] ): void;
 	/**
 	 * Add a filter to collection of twig functions

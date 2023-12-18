@@ -2,12 +2,12 @@
 /**
  * Main app file
  *
- * PHP Version 8.1
+ * PHP Version 8.0.28
  *
- * @package WP Core Framework
+ * @package WP Plugin Skeleton
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/WP-Plugin-Skeleton
+ * @link    https://github.com/bob-moore/wp-framework-core
  * @since   1.0.0
  */
 
@@ -26,11 +26,8 @@ use ValueError;
  *
  * @subpackage Traits
  */
-class Main extends Abstracts\Mountable
+class Main extends Abstracts\Mountable implements Interfaces\Main, Interfaces\Controller
 {
-	use Traits\Handlers\Url;
-	use Traits\Handlers\Directory;
-
 	/**
 	 * The service container for dependency injections, and locating service
 	 * instances
@@ -39,66 +36,145 @@ class Main extends Abstracts\Mountable
 	 */
 	protected ContainerInterface $service_container;
 	/**
-	 * Constructor for new instance of plugin
+	 * The optional package name.
 	 *
-	 * @param string $package : name of the package this instance belongs to.
-	 * @param string $root_file : path to root file of the plugin.
-	 *
-	 * @throws ValueError Error thrown if required data not provided.
+	 * @var string
 	 */
-	public function __construct(string $package = '', string $root_file = '' )
+	protected const PACKAGE = '';
+	/**
+	 * The type of app this belongs to.
+	 *
+	 * Should be 'plugin', 'theme', or 'child-theme'. Defaults to 'plugin'.
+	 *
+	 * @var string
+	 */
+	protected const TYPE = 'plugin';
+	/**
+	 * Configuration array
+	 *
+	 * @var array<string, mixed>
+	 */
+	protected array $config = [];
+	/**
+	 * Default constructor
+	 *
+	 * @param array<string, mixed> $config : configuration array to merge with defaults.
+	 *
+	 * @throws ValueError : throw exception if package is empty.
+	 */
+	public function __construct( array $config = [] )
 	{
-		/**
-		 * Maybe set package
-		 */
-		if ( empty( $this->package ) ) {
-			if ( empty( $package ) ) {
-				throw new ValueError( esc_html__( 'Package ID is required' ) );
-			} else {
-				$this->setPackage( $package );
-			}
-		}
-		/**
-		 * Maybe set url
-		 */
-		if ( empty( $this->url ) ) {
-			if ( empty( $root_file ) ) {
-				throw new ValueError( esc_html__( 'Root plugin file required to set URL' ) );
-			} else {
-				$this->setUrl( plugin_dir_url( $root_file ) );
-			}
-		}
-		/**
-		 * Maybe set dir
-		 */
-		if ( empty( $this->dir ) ) {
-			if ( empty( $root_file ) ) {
-				throw new ValueError( esc_html__( 'Root plugin file required to set DIR' ) );
-			} else {
-				$this->setDir( plugin_dir_path( $root_file ) );
-			}
-		}
+		$this->setConfig( $config );
 
-		$this->service_container = $this->getContainer();
+		$this->setPackage( $this->config['package'] );
+
+		if ( empty( $this->package ) ) {
+			throw new ValueError( 'Package name is required' );
+		}
 
 		parent::__construct();
 	}
 	/**
-	 * Set the class package
+	 * Setter for config field.
 	 *
-	 * @param string $package : name used to reference the current instance.
+	 * Ensures default values are set for package, dir, and url.
+	 *
+	 * @param array<string, mixed> $config : configuration array.
 	 *
 	 * @return void
 	 */
-	public function setPackage( string $package ): void
+	public function setConfig( array $config ): void
 	{
-		if ( ! empty( trim( $package ) ) ) {
-			parent::setPackage( $package );
-		} elseif ( empty( $this->package ) ) {
-			parent::setPackage( str_ireplace( '\\', '_', static::class ) );
-		}
-	}
+		$config = [
+			'package' => $config['package'] ?? static::PACKAGE,
+			'type'    => $config['type'] ?? static::TYPE,
+			'dir'     => untrailingslashit( $config['dir'] ?? $this->getDefaultDir() ),
+			'url'     => untrailingslashit( $config['url'] ?? $this->getDefaultUrl( $config['dir'] ) ),
+			'assets'  => [
+				'dir' => untrailingslashit( ltrim( $config['assets']['dir'] ?? $config['assets'] ?? 'dist', '/' ) ),
+				'url' => ContainerBuilder::string( '{config.url}{config.assets.dir}' ),
+			],
+			'views'   => [
+				'dir' => untrailingslashit( ltrim( $config['views']['dir'] ?? 'views', '/' ) ),
+			],
+		];
 
+		$this->config = $config;
+	}
+	/**
+	 * Set individual configuration items
+	 *
+	 * @param string $key : which config item to set.
+	 * @param mixed  $value : config value to set.
+	 *
+	 * @return void
+	 */
+	public function configure( string $key, mixed $value ): void
+	{
+		$this->config[ $key ] = $value;
+	}
+	/**
+	 * Infer default directory based on type.
+	 *
+	 * @return string
+	 */
+	protected function getDefaultDir(): string
+	{
+		return match ( static::TYPE ) {
+			'plugin'      => Helpers::defaultPluginDir(),
+			'theme'       => untrailingslashit( get_template_directory() ),
+			'child-theme' => untrailingslashit( get_stylesheet_directory() ),
+			default       => untrailingslashit( get_stylesheet_directory() ),
+		};
+	}
+	/**
+	 * Infer url based on type.
+	 *
+	 * @param string $dir : the base directory to use.
+	 *
+	 * @return string
+	 */
+	protected function getDefaultUrl( string $dir = '' ): string
+	{
+		return match ( static::TYPE ) {
+			'plugin'      => plugin_dir_url( trailingslashit( trailingslashit( $dir ) . '*.php' ) ),
+			'theme'       => untrailingslashit( get_template_directory_uri() ),
+			'child-theme' => untrailingslashit( get_stylesheet_directory_uri() ),
+			default       => untrailingslashit( get_stylesheet_directory_uri() ),
+		};
+	}
+	/**
+	 * Helper function to mount new instance of class
+	 *
+	 * @param array<string, mixed> $config : configuration array to merge with defaults.
+	 *
+	 * @return static
+	 */
+	public static function mount( array $config = [] ): static
+	{
+		$instance = new static( $config );
+
+		$instance->setContainer(
+			$instance->getContainer() ?? $instance->buildContainer()
+		);
+
+		$instance->onMount();
+
+		return $instance;
+	}
+	/**
+	 * Setter for service container
+	 *
+	 * @param ContainerInterface $container : instance of service container.
+	 *
+	 * @return void
+	 */
+	public function setContainer( ContainerInterface $container ): void
+	{
+		$this->service_container = $container;
+
+		ContainerBuilder::cacheContainer( $this->package, $this->service_container );
+	}
 	/**
 	 * Build the service container
 	 * - Instantiate a new container builder
@@ -106,7 +182,6 @@ class Main extends Abstracts\Mountable
 	 * - Get service definitions from controllers
 	 *
 	 * @return ContainerInterface
-	 * @throws \Exception
 	 */
 	protected function buildContainer(): ContainerInterface
 	{
@@ -114,62 +189,49 @@ class Main extends Abstracts\Mountable
 
 		$container_builder->useAttributes( true );
 
-		$container_builder->addDefinitions(
-			apply_filters(
-				"{$this->package}_definitions",
-				$this->getServiceDefinitions()
-			)
-		);
+		$container_builder->addDefinitions( [ 'config' => $this->config ] );
 
-		return $container_builder->build();
-	}
-	/**
-	 * Get container from the cache if available, else instantiate a new one
-	 *
-	 * Cache is used to give access to the container instead of a singleton
-	 *
-	 * @return ContainerInterface
-	 */
-	protected function getContainer(): ContainerInterface
-	{
-		$container = ContainerBuilder::locateContainer( static::class );
+		$container_builder->addDefinitions( self::getServiceDefinitions() );
 
-		if ( ! $container ) {
-			$container = $this->buildContainer();
-			ContainerBuilder::cacheContainer( static::class, $container );
-		}
+		$container = $container_builder->build();
 
 		return $container;
 	}
 	/**
-	 * Get service definitons to add to service container
+	 * Get container from the cache if available, else build a new one
+	 *
+	 * Cache is used to give access to the container instead of a singleton
+	 *
+	 * @return ContainerInterface|null
+	 */
+	protected function getContainer(): ?ContainerInterface
+	{
+		return $this->service_container ?? ContainerBuilder::locateContainer( $this->package );
+	}
+	/**
+	 * Get service definitions to add to service container
 	 *
 	 * @return array<string, mixed>
 	 */
-	protected function getServiceDefinitions(): array
+	public static function getServiceDefinitions(): array
 	{
 		return [
-			'app.package'                  => $this->package,
-			'app.url'                      => $this->url,
-			'app.dir'                      => $this->dir,
-			'assets.url'                   => 'dist',
-			'assets.dir'                   => 'dist',
-			'views.dir'                    => 'views',
-			Controllers\Dispatchers::class => ContainerBuilder::autowire(),
-			Controllers\Routes::class      => ContainerBuilder::autowire(),
-			Controllers\Services::class    => ContainerBuilder::autowire(),
-			Controllers\Entities::class    => ContainerBuilder::autowire(),
+			Controllers\Handlers::class => ContainerBuilder::autowire(),
+			Controllers\Routes::class   => ContainerBuilder::autowire(),
+			Controllers\Services::class => ContainerBuilder::autowire(),
 		];
 	}
 	/**
-	 * Mount the plugin
+	 * Fire Mounted action on mount
 	 *
 	 * @return void
 	 */
-	public function mount(): void
+	public function onMount(): void
 	{
 		$this->mountActions();
+
 		$this->mountControllers();
+
 		parent::onMount();
 	}
 	/**
@@ -177,7 +239,7 @@ class Main extends Abstracts\Mountable
 	 *
 	 * @return void
 	 */
-	public function mountActions(): void
+	protected function mountActions(): void
 	{
 		add_filter( "{$this->package}_has_route", [ $this, 'hasRoute' ], 5, 2 );
 		add_action( "{$this->package}_load_route", [ $this, 'loadRoute' ], 5 );
@@ -187,12 +249,11 @@ class Main extends Abstracts\Mountable
 	 *
 	 * @return void
 	 */
-	public function mountControllers(): void
+	protected function mountControllers(): void
 	{
-		$this->service_container->get( Controllers\Services::class );
-		$this->service_container->get( Controllers\Routes::class );
-		$this->service_container->get( Controllers\Dispatchers::class );
-		$this->service_container->get( Controllers\Entities::class );
+		foreach ( self::getServiceDefinitions() as $key => $value ) {
+			$this->service_container->get( $key );
+		}
 	}
 	/**
 	 * Check if a particular route exists
@@ -204,18 +265,18 @@ class Main extends Abstracts\Mountable
 	 */
 	public function hasRoute( bool $has_route, string $route_alias ): bool
 	{
-		return $this->service_container->has( $route_alias );
+		return false === $has_route ? $this->service_container->has( $route_alias ) : $has_route;
 	}
 	/**
 	 * Load a route from the service container
 	 *
-	 * @param string $alias : name of route to load.
+	 * @param string $route_alias : name of route to load.
 	 *
 	 * @return void
 	 */
-	public function loadRoute( string $alias ): void
+	public function loadRoute( string $route_alias ): void
 	{
-		$this->service_container->get( $alias );
+		$this->service_container->get( $route_alias );
 	}
 	/**
 	 * Locate a specific service
@@ -223,12 +284,13 @@ class Main extends Abstracts\Mountable
 	 * Use primarily by 3rd party interactions to remove actions/filters
 	 *
 	 * @param string $service : name of service to locate.
+	 * @param string $package : package id of container to search in.
 	 *
 	 * @return mixed
 	 */
-	public static function locateService( string $service )
+	public static function locateService( string $service, string $package = '' ): mixed
 	{
-		$container = ContainerBuilder::locateContainer( static::class );
+		$container = ContainerBuilder::locateContainer( ! empty( $package ) ? $package : static::PACKAGE );
 
 		if ( $container ) {
 			return $container->get( $service );
