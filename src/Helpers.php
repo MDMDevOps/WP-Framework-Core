@@ -236,4 +236,59 @@ class Helpers
 			return self::searchArray( $haystack[ $current ], $needle );
 		}
 	}
+	/**
+	 * Infer the type of package this is being used in.
+	 *
+	 * @return string
+	 */
+	public static function packageType(): string
+	{
+		$path = realpath( __DIR__ );
+
+		return match ( true ) {
+			str_contains( $path, WP_PLUGIN_DIR ) => 'plugin',
+			str_contains( $path, get_stylesheet_directory() )
+			&& ! str_contains( $path, get_template_directory() ) => 'child-theme',
+			str_contains( $path, get_template_directory() ) => 'theme',
+			default => 'child-theme',
+		};
+	}
+
+	/**
+	 * Infer default directory based on type.
+	 *
+	 * @param string|null $package_type : the package type to use.
+	 *
+	 * @return string
+	 */
+	public static function getDefaultDir( ?string $package_type = null ): string
+	{
+		return match ( $package_type ?? self::packageType() ) {
+			'plugin'      => self::defaultPluginDir(),
+			'theme'       => untrailingslashit( get_template_directory() ),
+			'child-theme' => untrailingslashit( get_stylesheet_directory() ),
+			default       => untrailingslashit( get_stylesheet_directory() ),
+		};
+	}
+	/**
+	 * Infer url based on type.
+	 *
+	 * @param string|null $dir : the base directory to use.
+	 * @param string|null $package_type : the package type to use.
+	 *
+	 * @return string
+	 */
+	public static function getDefaultUrl( ?string $dir = null, ?string $package_type = null ): string
+	{
+		return match ( $package_type ?? self::packageType() ) {
+			'plugin'      => plugin_dir_url(
+				trailingslashit(
+					trailingslashit( $dir ?? self::getDefaultDir( $package_type ) ) . '*.php'
+				)
+			),
+			'theme'       => untrailingslashit( get_template_directory_uri() ),
+			'child-theme' => untrailingslashit( get_stylesheet_directory_uri() ),
+			default       => untrailingslashit( get_stylesheet_directory_uri() ),
+		};
+	}
 }

@@ -42,14 +42,6 @@ class Main extends Abstracts\Mountable implements Interfaces\Main, Interfaces\Co
 	 */
 	protected const PACKAGE = '';
 	/**
-	 * The type of app this belongs to.
-	 *
-	 * Should be 'plugin', 'theme', or 'child-theme'. Defaults to 'plugin'.
-	 *
-	 * @var string
-	 */
-	protected const TYPE = 'plugin';
-	/**
 	 * Configuration array
 	 *
 	 * @var array<string, mixed>
@@ -85,21 +77,27 @@ class Main extends Abstracts\Mountable implements Interfaces\Main, Interfaces\Co
 	 */
 	public function setConfig( array $config ): void
 	{
-		$config = [
-			'package' => $config['package'] ?? static::PACKAGE,
-			'type'    => $config['type'] ?? static::TYPE,
-			'dir'     => untrailingslashit( $config['dir'] ?? $this->getDefaultDir() ),
-			'url'     => untrailingslashit( $config['url'] ?? $this->getDefaultUrl( $config['dir'] ) ),
-			'assets'  => [
-				'dir' => untrailingslashit( ltrim( $config['assets']['dir'] ?? $config['assets'] ?? 'dist', '/' ) ),
-				'url' => ContainerBuilder::string( '{config.url}{config.assets.dir}' ),
-			],
-			'views'   => [
-				'dir' => untrailingslashit( ltrim( $config['views']['dir'] ?? 'views', '/' ) ),
-			],
+		$package = $config['package'] ?? static::PACKAGE;
+		$app_dir = untrailingslashit( $config['dir'] ?? Helpers::getDefaultDir() );
+		$app_url = untrailingslashit( $config['url'] ?? Helpers::getDefaultUrl( $app_dir ) );
+		$assets = [
+			'dir' => untrailingslashit( ltrim( $config['assets']['dir'] ?? $config['assets'] ?? 'dist', '/' ) ),
+			'url' => ContainerBuilder::string( '{config.url}{config.assets.dir}' ),
+		];
+		$views = [
+			'dir' => untrailingslashit( ltrim( $config['views']['dir'] ?? 'views', '/' ) ),
 		];
 
-		$this->config = $config;
+		$this->config = array_merge(
+			$config,
+			[
+				'package' => $package,
+				'dir'     => $app_dir,
+				'url'     => $app_url,
+				'assets'  => $assets,
+				'views'   => $views,
+			]
+		);
 	}
 	/**
 	 * Set individual configuration items
@@ -112,36 +110,6 @@ class Main extends Abstracts\Mountable implements Interfaces\Main, Interfaces\Co
 	public function configure( string $key, mixed $value ): void
 	{
 		$this->config[ $key ] = $value;
-	}
-	/**
-	 * Infer default directory based on type.
-	 *
-	 * @return string
-	 */
-	protected function getDefaultDir(): string
-	{
-		return match ( static::TYPE ) {
-			'plugin'      => Helpers::defaultPluginDir(),
-			'theme'       => untrailingslashit( get_template_directory() ),
-			'child-theme' => untrailingslashit( get_stylesheet_directory() ),
-			default       => untrailingslashit( get_stylesheet_directory() ),
-		};
-	}
-	/**
-	 * Infer url based on type.
-	 *
-	 * @param string $dir : the base directory to use.
-	 *
-	 * @return string
-	 */
-	protected function getDefaultUrl( string $dir = '' ): string
-	{
-		return match ( static::TYPE ) {
-			'plugin'      => plugin_dir_url( trailingslashit( trailingslashit( $dir ) . '*.php' ) ),
-			'theme'       => untrailingslashit( get_template_directory_uri() ),
-			'child-theme' => untrailingslashit( get_stylesheet_directory_uri() ),
-			default       => untrailingslashit( get_stylesheet_directory_uri() ),
-		};
 	}
 	/**
 	 * Helper function to mount new instance of class
