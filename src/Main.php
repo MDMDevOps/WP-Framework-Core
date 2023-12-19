@@ -159,7 +159,7 @@ class Main extends Abstracts\Mountable implements Interfaces\Main, Interfaces\Co
 
 		$container_builder->addDefinitions( [ 'config' => $this->config ] );
 
-		$container_builder->addDefinitions( self::getServiceDefinitions() );
+		$container_builder->addDefinitions( static::getServiceDefinitions() );
 
 		$container = $container_builder->build();
 
@@ -219,7 +219,7 @@ class Main extends Abstracts\Mountable implements Interfaces\Main, Interfaces\Co
 	 */
 	protected function mountControllers(): void
 	{
-		foreach ( self::getServiceDefinitions() as $key => $value ) {
+		foreach ( static::getServiceDefinitions() as $key => $value ) {
 			$this->service_container->get( $key );
 		}
 	}
