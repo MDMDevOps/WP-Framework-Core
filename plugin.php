@@ -7,12 +7,12 @@
  * @package MWF_WP_Framework_Core
  * @author  Bob Moore <bob@bobmoore.dev>
  * @license GPL-2.0+ <http://www.gnu.org/licenses/gpl-2.0.txt>
- * @link    https://github.com/bob-moore/wp-framework-core
+ * @link    https://github.com/MDMDevOps/WP-Framework-Core
  * @since   1.0.0
  *
  * @wordpress-plugin
  * Plugin Name: Mid-West Family WP Framework Core
- * Plugin URI:  https://github.com/bob-moore/wp-framework-core
+ * Plugin URI:  https://github.com/MDMDevOps/WP-Framework-Core
  * Description: Custom Description
  * Version:     1.0.0
  * Author:      Bob Moore
