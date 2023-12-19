@@ -1,5 +1,5 @@
 {
-    "name": "devkit/wp-framework-core",
+    "name": "mwf/wp-framework-core",
     "description": "WP Plugin/Theme Core Framework",
 	"version": "1.0.0",
     "type": "library",
@@ -26,7 +26,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Devkit\\WPCore\\" : "src"
+			"Mwf\\WPCore\\" : "src"
 		}
 	},
 	"require": {

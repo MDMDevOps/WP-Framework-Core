@@ -1,4 +1,4 @@
-# Devkit WP Framework Core
+# Mid-West Family WP Framework Core
 
 Core functionality for building Wordpress themes and plugins. Some of the key features are:
 
